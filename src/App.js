@@ -6,6 +6,7 @@ import { Html5QrcodeScanner } from "html5-qrcode";
 import { Html5Qrcode } from "html5-qrcode";
 function App() {
   const [scannedData, setScannedData] = useState("");
+  const cameras = [];
 
   function handleScanClick() {
     // This method will trigger user permissions
@@ -17,6 +18,7 @@ function App() {
          */
         devices.forEach((element) => {
           console.log(element);
+          cameras.push(element);
         });
 
         if (devices && devices.length) {
@@ -68,10 +70,19 @@ function App() {
 
   return (
     <div>
-      <button onClick={handleScanClick}>Scan Barcode</button>
-      {scannedData && <p>Scanned Data: {scannedData}</p>}
-      {/* <div id="html5-qrcode-scanner"></div> */}
-      <div id="reader"></div>
+      <div>
+        <button onClick={handleScanClick}>Scan Barcode</button>
+        {scannedData && <p>Scanned Data: {scannedData}</p>}
+        {/* <div id="html5-qrcode-scanner"></div> */}
+        <div id="reader"></div>
+      </div>
+      <div>
+        <ul>
+          {cameras.map((item) => {
+            return <li>{item[0]}</li>;
+          })}
+        </ul>
+      </div>
     </div>
   );
 }
