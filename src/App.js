@@ -76,12 +76,16 @@ function App() {
         {scannedData && <p>Scanned Data: {scannedData}</p>}
         <div id="reader"></div>
       </div>
-      <div>
+      {/* <div>
         <ul>
           {cameras.map((item) => {
             return <li>{item.label}</li>;
           })}
         </ul>
+      </div> */}
+      <div>
+        Current Camera:{" "}
+        {cameras.length ? cameras[cameras.length - 1].label : "None"}
       </div>
     </div>
   );
