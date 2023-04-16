@@ -43,7 +43,7 @@ function App() {
               config,
               qrCodeSuccessCallback
             )
-            .then(cameras.push({ id: "10", lableL: "enviorment" }))
+            .then(cameras.push({ id: "10", labeL: "enviorment" }))
             .catch((err) => {
               // ************  Back Camera
               html5QrCode
@@ -52,7 +52,7 @@ function App() {
                   config,
                   qrCodeSuccessCallback
                 )
-                .then(cameras.push({ id: "11", lableL: "rear_camera" }));
+                .then(cameras.push({ id: "11", labeL: "rear_camera" }));
             });
 
           // // ************  Back Camera
