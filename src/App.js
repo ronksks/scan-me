@@ -15,9 +15,13 @@ function App() {
          * devices would be an array of objects of type:
          * { id: "id", label: "label" }
          */
+        devices.forEach((element) => {
+          console.log(element);
+        });
+
         if (devices && devices.length) {
           console.log("entered if (devices && devices.length)");
-          var cameraId = devices[1].id;
+          var cameraId = devices[0].id;
           // .. use this to start scanning.
           const html5QrCode = new Html5Qrcode("reader");
           const qrCodeSuccessCallback = (decodedText, decodedResult) => {
