@@ -82,7 +82,7 @@ function App() {
         <p>
           Current Camera:{" "}
           {activeCamera
-            ? cameras.find((camera) => camera.id === activeCamera)?.label ||
+            ? cameras.find((camera) => camera.id == activeCamera)?.label ||
               "Unknown"
             : "None"}
         </p>
