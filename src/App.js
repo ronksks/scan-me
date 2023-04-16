@@ -1,42 +1,37 @@
 import React, { useState } from "react";
-import { Html5QrcodeScanner } from "html5-qrcode";
+import { Html5Qrcode } from "html5-qrcode";
 
 function App() {
   const [scannedData, setScannedData] = useState("");
 
-  const handleScanSuccess = (decodedText) => {
+  const handleScanSuccess = (decodedText, decodedResult) => {
     setScannedData(decodedText);
-    Html5QrcodeScanner.clear();
-    console.log("Scanned Data:", decodedText);
+    Html5Qrcode.stop().then((ignore) => {
+      document.getElementById("html5-qrcode-reader").style.display = "none";
+    });
+    console.log(decodedText);
   };
 
   const handleScanFailure = (errorMessage) => {
     console.error(errorMessage);
   };
 
-  const handleScanClick = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      const html5QrCodeScanner = new Html5QrcodeScanner(
-        "html5-qrcode-scanner",
-        {
-          fps: 10,
-          qrbox: { width: 250, height: 250 },
-          constraints: { facingMode: "environment" },
-        },
-        /* verbose= */ false
-      );
-      html5QrCodeScanner.render(handleScanSuccess, handleScanFailure);
-    } catch (err) {
-      console.error(err);
-    }
+  const handleScanClick = () => {
+    const html5QrCode = new Html5Qrcode("html5-qrcode-reader", true);
+    const config = {
+      fps: 10,
+      qrbox: { width: 250, height: 250 },
+      // Use only the back camera
+      facingMode: { exact: "environment" },
+    };
+    html5QrCode.start(config, handleScanSuccess, handleScanFailure);
   };
 
   return (
     <div>
       <button onClick={handleScanClick}>Scan Barcode</button>
       {scannedData && <p>Scanned Data: {scannedData}</p>}
-      <div id="html5-qrcode-scanner"></div>
+      <div id="html5-qrcode-reader"></div>
     </div>
   );
 }
