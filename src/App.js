@@ -43,13 +43,16 @@ function App() {
               config,
               qrCodeSuccessCallback
             )
+            .then(cameras.push({ id: "10", lableL: "enviorment" }))
             .catch((err) => {
               // ************  Back Camera
-              html5QrCode.start(
-                { deviceId: { exact: cameraId } },
-                config,
-                qrCodeSuccessCallback
-              );
+              html5QrCode
+                .start(
+                  { deviceId: { exact: cameraId } },
+                  config,
+                  qrCodeSuccessCallback
+                )
+                .then(cameras.push({ id: "11", lableL: "rear_camera" }));
             });
 
           // // ************  Back Camera
