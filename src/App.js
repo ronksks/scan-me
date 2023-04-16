@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
 
 function App() {
   const [scannedData, setScannedData] = useState("");
+  const [scannerVisible, setScannerVisible] = useState(false);
 
   const handleScanSuccess = (decodedText) => {
     setScannedData(decodedText);
-    document.getElementById("html5-qrcode-scanner").remove();
+    setScannerVisible(false);
   };
 
   const handleScanFailure = (errorMessage) => {
@@ -14,19 +15,31 @@ function App() {
   };
 
   const handleScanClick = () => {
-    const html5QrCodeScanner = new Html5QrcodeScanner(
-      "html5-qrcode-scanner",
-      { fps: 10, qrbox: { width: 250, height: 250 } },
-      false
-    );
-    html5QrCodeScanner.render(handleScanSuccess, handleScanFailure);
+    setScannerVisible(true);
   };
+
+  useEffect(() => {
+    let html5QrCodeScanner;
+    if (scannerVisible) {
+      html5QrCodeScanner = new Html5QrcodeScanner(
+        "html5-qrcode-scanner",
+        { fps: 10, qrbox: { width: 250, height: 250 } }
+        /* useBackCamera: true by default */
+      );
+      html5QrCodeScanner.render(handleScanSuccess, handleScanFailure);
+    }
+    return () => {
+      if (html5QrCodeScanner) {
+        html5QrCodeScanner.stop();
+      }
+    };
+  }, [scannerVisible]);
 
   return (
     <div>
       <button onClick={handleScanClick}>Scan Barcode</button>
       {scannedData && <p>Scanned Data: {scannedData}</p>}
-      <div id="html5-qrcode-scanner"></div>
+      {scannerVisible && <div id="html5-qrcode-scanner"></div>}
     </div>
   );
 }
