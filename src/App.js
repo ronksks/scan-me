@@ -35,19 +35,19 @@ function App() {
           };
           const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
-          // // ************  Back Camera hardcoded
-          // html5QrCode.start(
-          //   { facingMode: "environment" },
-          //   config,
-          //   qrCodeSuccessCallback
-          // );
-
-          // ************  Back Camera
+          // ************  Back Camera hardcoded
           html5QrCode.start(
-            { deviceId: { exact: cameraId } },
+            { facingMode: "environment" },
             config,
             qrCodeSuccessCallback
           );
+
+          // // ************  Back Camera
+          // html5QrCode.start(
+          //   { deviceId: { exact: cameraId } },
+          //   config,
+          //   qrCodeSuccessCallback
+          // );
         }
       })
       .catch((err) => {
