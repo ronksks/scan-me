@@ -4,7 +4,7 @@ import { useState } from "react";
 function App() {
   const [scannedData, setScannedData] = useState("");
   const [cameras, setCameras] = useState([]);
-  const [activeCamera, setActiveCamera] = useState(null);
+  const [usedCamera, setUsedCamera] = useState(null);
 
   function handleScanClick() {
     // This method will trigger user permissions
@@ -23,9 +23,13 @@ function App() {
           const html5QrCode = new Html5Qrcode("reader");
           const qrCodeSuccessCallback = (decodedText, decodedResult) => {
             /* handle success */
+            const cameraId = decodedResult.cameraId;
+            const cameraLabel = decodedResult.cameraLabel;
             setScannedData(decodedText);
-            setActiveCamera(decodedResult.cameraId);
-            console.log(scannedData);
+            console.log("Scanned Data:", decodedText);
+            console.log("Camera ID:", cameraId);
+            console.log("Camera Label:", cameraLabel);
+            setUsedCamera({ id: cameraId, label: cameraLabel });
             html5QrCode
               .stop()
               .then((ignore) => {
@@ -35,6 +39,7 @@ function App() {
                 // Stop failed, handle it.
               });
           };
+
           const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
           // ************  Back Camera hardcoded
@@ -45,7 +50,10 @@ function App() {
               config,
               qrCodeSuccessCallback
             )
-            .then(cameras.push({ id: "10", labeL: "enviorment" }))
+            .then(() => {
+              cameras.push({ id: "10", label: "environment" });
+              setCameras([...cameras]); // update cameras state to reflect the new camera
+            })
             .catch((err) => {
               // ************  Back Camera
               html5QrCode
@@ -54,7 +62,13 @@ function App() {
                   config,
                   qrCodeSuccessCallback
                 )
-                .then(cameras.push({ id: "11", labeL: "rear_camera" }));
+                .then(() => {
+                  cameras.push({ id: "11", label: "rear_camera" });
+                  setCameras([...cameras]); // update cameras state to reflect the new camera
+                })
+                .catch((err) => {
+                  console.log("Unable to start scanning.", err);
+                });
             });
 
           // // ************  Back Camera
@@ -79,23 +93,22 @@ function App() {
         <div id="reader"></div>
       </div>
       <div>
-        <p>
-          Current Camera:{" "}
-          {activeCamera
-            ? cameras.find((camera) => camera.id == activeCamera)?.label ||
-              "Unknown"
-            : "None"}
-        </p>
+        {usedCamera ? (
+          <div>
+            Used Camera: {usedCamera.id} - {usedCamera.label}
+          </div>
+        ) : (
+          <div>No camera used for the last scan.</div>
+        )}
         <ul>
           {cameras.map((item) => {
-            return <li>{item.label}</li>;
+            return <li key={item.id}>{item.label}</li>;
           })}
         </ul>
       </div>
     </div>
   );
 }
-
 export default App;
 
 //********* this works so far ************ */
