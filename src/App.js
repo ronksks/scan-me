@@ -17,7 +17,7 @@ function App() {
 
         if (devices && devices.length) {
           console.log("entered if (devices && devices.length)");
-          var cameraId = devices[3].id;
+          var cameraId = devices[1].id;
           // .. use this to start scanning.
           const html5QrCode = new Html5Qrcode("reader");
           const qrCodeSuccessCallback = (decodedText, decodedResult) => {
@@ -36,11 +36,21 @@ function App() {
           const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
           // ************  Back Camera hardcoded
-          html5QrCode.start(
-            { facingMode: "environment" },
-            config,
-            qrCodeSuccessCallback
-          );
+
+          html5QrCode
+            .start(
+              { facingMode: { exact: "environment" } },
+              config,
+              qrCodeSuccessCallback
+            )
+            .catch((err) => {
+              // ************  Back Camera
+              html5QrCode.start(
+                { deviceId: { exact: cameraId } },
+                config,
+                qrCodeSuccessCallback
+              );
+            });
 
           // // ************  Back Camera
           // html5QrCode.start(
@@ -51,6 +61,7 @@ function App() {
         }
       })
       .catch((err) => {
+        // if(err.text == "OverconstrainedError" )
         // handle err
       });
   }
