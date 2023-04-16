@@ -17,7 +17,7 @@ function App() {
          */
         if (devices && devices.length) {
           console.log("entered if (devices && devices.length)");
-          var cameraId = devices[0].id;
+          var cameraId = devices[1].id;
           // .. use this to start scanning.
           const html5QrCode = new Html5Qrcode("reader");
           const qrCodeSuccessCallback = (decodedText, decodedResult) => {
