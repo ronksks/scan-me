@@ -24,6 +24,14 @@ function App() {
             /* handle success */
             setScannedData(decodedText);
             console.log(scannedData);
+            html5QrCode
+              .stop()
+              .then((ignore) => {
+                // QR Code scanning is stopped.
+              })
+              .catch((err) => {
+                // Stop failed, handle it.
+              });
           };
           const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
@@ -47,15 +55,6 @@ function App() {
           //   config,
           //   qrCodeSuccessCallback
           // );
-
-          html5QrCode
-            .stop()
-            .then((ignore) => {
-              // QR Code scanning is stopped.
-            })
-            .catch((err) => {
-              // Stop failed, handle it.
-            });
         }
       })
       .catch((err) => {
@@ -67,8 +66,8 @@ function App() {
     <div>
       <button onClick={handleScanClick}>Scan Barcode</button>
       {scannedData && <p>Scanned Data: {scannedData}</p>}
-      <div id="html5-qrcode-scanner"></div>
-      {/* <div id="reader"></div> */}
+      {/* <div id="html5-qrcode-scanner"></div> */}
+      <div id="reader"></div>
     </div>
   );
 }
