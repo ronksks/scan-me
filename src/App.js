@@ -1,12 +1,9 @@
-import React, { useState } from "react";
-// To use Html5QrcodeScanner (more info below)
-import { Html5QrcodeScanner } from "html5-qrcode";
-
-// To use Html5Qrcode (more info below)
 import { Html5Qrcode } from "html5-qrcode";
+import { useState } from "react";
+
 function App() {
   const [scannedData, setScannedData] = useState("");
-  const cameras = [];
+  const [cameras, setCameras] = useState([]);
 
   function handleScanClick() {
     // This method will trigger user permissions
@@ -16,10 +13,7 @@ function App() {
          * devices would be an array of objects of type:
          * { id: "id", label: "label" }
          */
-        devices.forEach((element) => {
-          console.log(element);
-          cameras.push(element);
-        });
+        setCameras(devices);
 
         if (devices && devices.length) {
           console.log("entered if (devices && devices.length)");
@@ -47,20 +41,6 @@ function App() {
             config,
             qrCodeSuccessCallback
           );
-
-          // // ************  Back Camera
-          // html5QrCode.start(
-          //   { deviceId: { exact: cameraId } },
-          //   config,
-          //   qrCodeSuccessCallback
-          // );
-
-          // *** front camera
-          // html5QrCode.start(
-          //   { facingMode: "user" },
-          //   config,
-          //   qrCodeSuccessCallback
-          // );
         }
       })
       .catch((err) => {
@@ -73,13 +53,12 @@ function App() {
       <div>
         <button onClick={handleScanClick}>Scan Barcode</button>
         {scannedData && <p>Scanned Data: {scannedData}</p>}
-        {/* <div id="html5-qrcode-scanner"></div> */}
         <div id="reader"></div>
       </div>
       <div>
         <ul>
           {cameras.map((item) => {
-            return <li>{item[0]}</li>;
+            return <li>{item.label}</li>;
           })}
         </ul>
       </div>
