@@ -51,24 +51,24 @@ function App() {
               qrCodeSuccessCallback
             )
             .then(() => {
-              cameras.push({ id: "10", label: "environment" });
+              // cameras.push({ id: "10", label: "environment" });
               setCameras([...cameras]); // update cameras state to reflect the new camera
             })
             .catch((err) => {
               // ************  Back Camera
-              html5QrCode
-                .start(
-                  { deviceId: { exact: cameraId } },
-                  config,
-                  qrCodeSuccessCallback
-                )
-                .then(() => {
-                  cameras.push({ id: "11", label: "rear_camera" });
-                  setCameras([...cameras]); // update cameras state to reflect the new camera
-                })
-                .catch((err) => {
-                  console.log("Unable to start scanning.", err);
-                });
+              // html5QrCode
+              //   .start(
+              //     { deviceId: { exact: cameraId } },
+              //     config,
+              //     qrCodeSuccessCallback
+              //   )
+              // .then(() => {
+              //   // cameras.push({ id: "11", label: "rear_camera" });
+              //   // setCameras([...cameras]); // update cameras state to reflect the new camera
+              // })
+              // .catch((err) => {
+              console.log("Unable to start scanning.", err);
+              // });
             });
 
           // // ************  Back Camera
