@@ -8,83 +8,69 @@ function App() {
 
   function handleScanClick() {
     // This method will trigger user permissions
-    Html5Qrcode.getCameras()
-      .then((devices) => {
-        /**
-         * devices would be an array of objects of type:
-         * { id: "id", label: "label" }
-         */
-        setCameras(devices);
+    Html5Qrcode.getCameras().then((devices) => {
+      /**
+       * devices would be an array of objects of type:
+       * { id: "id", label: "label" }
+       */
+      setCameras(devices);
 
-        if (devices && devices.length) {
-          console.log("entered if (devices && devices.length)");
-          var cameraId = devices[1].id;
-          // .. use this to start scanning.
-          const html5QrCode = new Html5Qrcode("reader");
-          const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-            /* handle success */
-            const cameraId = decodedResult.cameraId;
-            const cameraLabel = decodedResult.cameraLabel;
-            setScannedData(decodedText);
-            console.log("Scanned Data:", decodedText);
-            console.log("Camera ID:", cameraId);
-            console.log("Camera Label:", cameraLabel);
-            setUsedCamera({ id: cameraId, label: cameraLabel });
-            html5QrCode
-              .stop()
-              .then((ignore) => {
-                // QR Code scanning is stopped.
-              })
-              .catch((err) => {
-                // Stop failed, handle it.
-              });
-          };
-
-          const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-
-          // ************  Back Camera hardcoded
-
+      if (devices && devices.length) {
+        console.log("entered if (devices && devices.length)");
+        var cameraId = devices[1].id;
+        // .. use this to start scanning.
+        const html5QrCode = new Html5Qrcode("reader");
+        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+          /* handle success */
+          const cameraId = decodedResult.cameraId;
+          const cameraLabel = decodedResult.cameraLabel;
+          setScannedData(decodedText);
+          console.log("Scanned Data:", decodedText);
+          console.log("Camera ID:", cameraId);
+          console.log("Camera Label:", cameraLabel);
+          setUsedCamera({ id: cameraId, label: cameraLabel });
           html5QrCode
-            .start(
-              { facingMode: { exact: "environment" } },
-              config,
-              qrCodeSuccessCallback
-            )
-            .then(() => {
-              // cameras.push({ id: "10", label: "environment" });
-              setCameras([...cameras]); // update cameras state to reflect the new camera
+            .stop()
+            .then((ignore) => {
+              // QR Code scanning is stopped.
             })
             .catch((err) => {
-              // ************  Back Camera
-              // html5QrCode
-              //   .start(
-              //     { deviceId: { exact: cameraId } },
-              //     config,
-              //     qrCodeSuccessCallback
-              //   )
-              // .then(() => {
-              //   // cameras.push({ id: "11", label: "rear_camera" });
-              //   // setCameras([...cameras]); // update cameras state to reflect the new camera
-              // })
-              // .catch((err) => {
-              console.log("Unable to start scanning.", err);
-              // });
+              // Stop failed, handle it.
             });
+        };
 
-          // // ************  Back Camera
-          // html5QrCode.start(
-          //   { deviceId: { exact: cameraId } },
-          //   config,
-          //   qrCodeSuccessCallback
-          // );
+        // const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+        const config = { fps: 100, qrbox: 200, aspectRatio: 1 };
+
+        // ************  Back Camera hardcoded
+
+        try {
+          html5QrCode.start(
+            { facingMode: { exact: "environment" } },
+            config,
+            qrCodeSuccessCallback
+          );
+        } catch (error) {
+          console.log("Unable to start scanning.", error);
         }
-      })
-      .catch((err) => {
-        // if(err.text == "OverconstrainedError" )
-        // handle err
-      });
+      }
+    });
   }
 
+  // ************  Back Camera
+  // html5QrCode
+  //   .start(
+  //     { deviceId: { exact: cameraId } },
+  //     config,
+  //     qrCodeSuccessCallback
+  //   )
+
+  // // ************  Back Camera
+  // html5QrCode.start(
+  //   { deviceId: { exact: cameraId } },
+  //   config,
+  //   qrCodeSuccessCallback
+  // );
   return (
     <div>
       <div>
