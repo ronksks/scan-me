@@ -7,8 +7,11 @@ function App() {
   const [cameras, setCameras] = useState([]);
   const [usedCamera, setUsedCamera] = useState(null);
 
+  function handleScannedData(data) {
+    setScannedData(data);
+  }
   function handleScanClick() {
-    <ScannerComponent></ScannerComponent>;
+    <ScannerComponent scannedData={handleScannedData} />;
     // // This method will trigger user permissions
     // Html5Qrcode.getCameras().then((devices) => {
     //   /**
@@ -90,9 +93,9 @@ function App() {
       <div>
         <button onClick={handleScanClick}>Scan Barcode</button>
         {scannedData && <p>Scanned Data: {scannedData}</p>}
-        <div id="reader"></div>
+        {/* <div id="reader"></div> */}
       </div>
-      <div>
+      {/* <div>
         {usedCamera ? (
           <div>
             Used Camera: {usedCamera.id} - {usedCamera.label}
@@ -105,7 +108,7 @@ function App() {
             return <li key={item.id}>{item.label}</li>;
           })}
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 }

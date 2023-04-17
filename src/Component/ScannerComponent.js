@@ -2,7 +2,7 @@ import { Html5QrcodeScanner, Html5QrcodeScanType } from "html5-qrcode";
 import React, { useEffect, useState } from "react";
 // import "./BarcodeScanner.css";
 
-function ScannerComponent({ childToParentScanner, cameraToggle }) {
+function ScannerComponent({ scannedData }) {
   useEffect(() => {
     if (Html5QrcodeScanner) {
       let html5QrcodeScanner = new Html5QrcodeScanner(
@@ -31,7 +31,7 @@ function ScannerComponent({ childToParentScanner, cameraToggle }) {
       );
 
       function onScanSuccess(data) {
-        childToParentScanner(data);
+        scannedData(data);
 
         // Stop scanning
         html5QrcodeScanner
@@ -47,14 +47,15 @@ function ScannerComponent({ childToParentScanner, cameraToggle }) {
       }
 
       function onScanFailure(error) {
-        cameraToggle(html5QrcodeScanner);
+        // cameraToggle(html5QrcodeScanner);
         // handle scan failure, usually better to ignore and keep scanning
         console.warn(`QR error = ${error}`);
       }
 
       html5QrcodeScanner.render(onScanSuccess, onScanFailure);
     }
-  }, [cameraToggle, childToParentScanner]);
+    //   }, [cameraToggle, childToParentScanner]);
+  }, [scannedData]);
 
   return <div id="reader"></div>;
 }
