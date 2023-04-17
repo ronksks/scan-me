@@ -43,7 +43,7 @@ function App() {
         const config = {
           fps: 100,
           qrbox: { width: 250, height: 250 },
-          aspectRatio: 1,
+          aspectRatio: 2,
         };
 
         // ************  Back Camera hardcoded
