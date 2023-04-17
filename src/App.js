@@ -43,7 +43,7 @@ function App() {
         const config = {
           fps: 100,
           qrbox: { width: 250, height: 250 },
-          aspectRatio: 2,
+          aspectRatio: 1,
         };
 
         // ************  Back Camera hardcoded
@@ -60,6 +60,7 @@ function App() {
               focusMode: "continuous",
               advanced: [{ zoom: 2.0 }],
             });
+            alert("zoom");
           }, 2000);
         } catch (error) {
           console.log("Unable to start scanning.", error);
