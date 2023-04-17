@@ -6,12 +6,13 @@ function App() {
   const [scannedData, setScannedData] = useState("");
   const [cameras, setCameras] = useState([]);
   const [usedCamera, setUsedCamera] = useState(null);
+  const [showScanner, setShowScanner] = useState(false);
 
   function handleScannedData(data) {
     setScannedData(data);
   }
   function handleScanClick() {
-    <ScannerComponent scannedData={handleScannedData} />;
+    setShowScanner(true);
     // // This method will trigger user permissions
     // Html5Qrcode.getCameras().then((devices) => {
     //   /**
@@ -19,7 +20,6 @@ function App() {
     //    * { id: "id", label: "label" }
     //    */
     //   setCameras(devices);
-
     //   if (devices && devices.length) {
     //     console.log("entered if (devices && devices.length)");
     //     var cameraId = devices[1].id;
@@ -43,16 +43,13 @@ function App() {
     //           // Stop failed, handle it.
     //         });
     //     };
-
     //     // const config = { fps: 10, qrbox: { width: 250, height: 250 } };
     //     const config = {
     //       fps: 100,
     //       qrbox: { width: 250, height: 250 },
     //       aspectRatio: 1,
     //     };
-
     //     // ************  Back Camera hardcoded
-
     //     try {
     //       html5QrCode.start(
     //         { facingMode: { exact: "environment" } },
@@ -92,6 +89,8 @@ function App() {
     <div>
       <div>
         <button onClick={handleScanClick}>Scan Barcode</button>
+        {showScanner && <ScannerComponent scannedData={handleScannedData} />}
+
         {scannedData && <p>Scanned Data: {scannedData}</p>}
         {/* <div id="reader"></div> */}
       </div>
