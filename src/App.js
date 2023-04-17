@@ -58,7 +58,7 @@ function App() {
           setTimeout(function () {
             html5QrCode.applyVideoConstraints({
               focusMode: "continuous",
-              advanced: [{ zoom: 2.0 }],
+              advanced: [{ zoom: 2 }],
             });
             alert("zoom");
           }, 2000);
